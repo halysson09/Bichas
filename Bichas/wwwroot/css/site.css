@@ -1,0 +1,54 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+
+.btn-gravar {
+    margin-left: 510px;
+    position: absolute;
+    margin-top: -36px;
+    border-radius: 18px;
+    border: none;
+    background-color: #fff;
+}
+.iconeAceitar {
+    background-color: #a9e9a9 !important;
+    border-radius: 18px;
+    width: 30px;
+}
+.btncheck {
+    background-color: #a9e9a9 !important;
+    border-radius: 18px;
+    width: 23px;
+}
+.container1 {
+    display: flex; /* or inline-flex */
+    flex-direction: row;
+    gap: 20px;
+
+    
+}
+.bordas {
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    width: 80px;
+    height: 70px;
+    background-color: #E0F8E5;
+    text-align: center;
+}

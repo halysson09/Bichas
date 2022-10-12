@@ -1,0 +1,74 @@
+﻿@page
+@model IndexModel
+@{
+}
+<body>
+    <div class="container1">
+        @foreach (var i in Model.ReservaList.Where(x => x.ENTROU == false).OrderBy(x => x.QTD_PESSOAS).GroupBy(x => x.ID_MESA))
+        {
+           <div class="bordas">
+                <text><b>
+                    @foreach (var item in ViewBag.ListItemsMesas)
+                    {
+                        if (item.Value == i.Key.ToString())
+                        @item.Text
+                    } 
+                    </b>
+                </text>
+                <br>
+                <text style="font-size: 22px">@i.Count()</text>
+            </div> 
+        }
+    </div>
+    
+    <div style="margin-top: 20px" class="dataTables_filter" id="Grid_Demanda_filter">
+        <form method="post">
+            <input name="NOME_RESERVA" style="width: 250px" class="form-control" type="text" placeholder="Informe seu nome" />
+            <input name="QTD_PESSOAS" style="width: 250px; margin-left: 254px; margin-top: -38px;" class="form-control" type="text" placeholder="Quantos lugares?" />
+            <button id="btn-novaReserva" class="btn-gravar" type="submit">
+                <img class="iconeAceitar" src="~/lib/bootstrap/dist/css/bootstrap-icons-1.9.1/check-circle.svg" />
+            </button>
+        </form>
+    </div>
+
+    <table style="margin-top: 10px" class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="text-align: center">Nome</th>
+                <th style="text-align: center">Lugares</th>
+                <th style="text-align: center">Horário</th>
+                <th style="width: 1px;">Finalizado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.ReservaList.OrderBy(x => x.QTD_PESSOAS).ThenBy(x => x.HORA_RESERVA))
+            {
+                <tr>
+                    <td>
+                        @i.NOME_RESERVA
+                    </td>
+                    <td style="text-align: center">
+                        @i.QTD_PESSOAS
+                    </td>
+                    <td style="text-align: center">
+                        @i.HORA_RESERVA.ToString("HH:mm:ss")
+                    </td>
+                    <td>
+                        <form method="post">
+                            <div style="text-align: center">
+                                <button style="border: none; background-color: #fff" name="ID_RESERVA" asp-page-handler="Entrar" value="@i.ID_RESERVA" type="submit">
+                                    <img class="btncheck" src="~/lib/bootstrap/dist/css/bootstrap-icons-1.9.1/check-lg.svg" />
+                                </button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <img style="width: 900px ; padding-left: 300px" src="~/css/Fila.gif" />
+    </div>
+
+</body>
