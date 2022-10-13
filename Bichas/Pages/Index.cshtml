@@ -1,50 +1,69 @@
 ﻿@page
 @model IndexModel
 @{
+    ViewData["Title"] = "Inicio";
+    var positioncount = 1;
+    var qtdPessoas = 0;
 }
 <body>
     <div class="container1">
         @foreach (var i in Model.ReservaList.Where(x => x.ENTROU == false).OrderBy(x => x.QTD_PESSOAS).GroupBy(x => x.ID_MESA))
         {
-           <div class="bordas">
-                <text><b>
-                    @foreach (var item in ViewBag.ListItemsMesas)
-                    {
-                        if (item.Value == i.Key.ToString())
-                        @item.Text
-                    } 
+            <div class="bordas">
+                <text>
+                    <b>
+                        @foreach (var item in ViewBag.ListItemsMesas)
+                        {
+                            if (item.Value == i.Key.ToString())
+                                @item.Text
+                        }
                     </b>
                 </text>
                 <br>
                 <text style="font-size: 22px">@i.Count()</text>
-            </div> 
+            </div>
         }
     </div>
-    
-    <div style="margin-top: 20px" class="dataTables_filter" id="Grid_Demanda_filter">
-        <form method="post">
-            <input name="NOME_RESERVA" style="width: 250px" class="form-control" type="text" placeholder="Informe seu nome" />
-            <input name="QTD_PESSOAS" style="width: 250px; margin-left: 254px; margin-top: -38px;" class="form-control" type="text" placeholder="Quantos lugares?" />
-            <button id="btn-novaReserva" class="btn-gravar" type="submit">
-                <img class="iconeAceitar" src="~/lib/bootstrap/dist/css/bootstrap-icons-1.9.1/check-circle.svg" />
-            </button>
-        </form>
+    <form method="post">
+    <div style="margin-top: 20px" class="dataTables_filter formulario" id="Grid_Demanda_filter">
+        
+            <div style="width: 250px">
+                <input name="NOME_RESERVA" class="form-control" type="text" placeholder="Informe seu nome" />
+            </div>
+            <div style="width: 250px">
+                <input name="QTD_PESSOAS" class="form-control" type="text" placeholder="Quantos lugares?" />
+            </div>
+            <div>
+                <button id="btn-novaReserva" class="btn-gravar" type="submit">
+                    <img class="iconeAceitar" src="~/lib/bootstrap/dist/css/bootstrap-icons-1.9.1/check-circle.svg" />
+                </button>
+            </div>
+            <div style="width: 250px; margin-left: 267px;">
+                <input id="Pesquisar" class="form-control" type="text" placeholder="Informe seu nome:" />
+            </div>
+        
     </div>
-
+    </form>
     <table style="margin-top: 10px" class="table table-bordered">
         <thead>
             <tr>
                 <th style="text-align: center">Nome</th>
                 <th style="text-align: center">Lugares</th>
                 <th style="text-align: center">Horário</th>
+                <th style="width: 170px; text-align: center">Posição</th>
                 <th style="width: 1px;">Finalizado</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="table">
             @foreach (var i in Model.ReservaList.OrderBy(x => x.QTD_PESSOAS).ThenBy(x => x.HORA_RESERVA))
             {
+                if (i.QTD_PESSOAS != i.QTD_PESSOAS)
+                {
+                    positioncount = 1;
+                    qtdPessoas = i.QTD_PESSOAS;
+                }
                 <tr>
-                    <td>
+                    <td class="filtro">
                         @i.NOME_RESERVA
                     </td>
                     <td style="text-align: center">
@@ -52,6 +71,9 @@
                     </td>
                     <td style="text-align: center">
                         @i.HORA_RESERVA.ToString("HH:mm:ss")
+                    </td>
+                    <td style="text-align: center">
+                        @(positioncount + "º")
                     </td>
                     <td>
                         <form method="post">
@@ -63,6 +85,7 @@
                         </form>
                     </td>
                 </tr>
+                positioncount++;
             }
         </tbody>
     </table>
@@ -72,3 +95,23 @@
     </div>
 
 </body>
+<script>
+    $(document).ready(function() {
+        $("#Pesquisar").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#table tr").filter(function() {
+                var lenght = this.children.length;
+                for (let i = 0; i < lenght; i++) {
+                    var TD = this.children[i];
+
+                    if (TD.classList.contains("filtro")) {
+                        $(this).toggle($(TD).text().toLowerCase().indexOf(value) > -1);
+
+                        if ($(TD).text().toLowerCase().indexOf(value) > -1)
+                            return;
+                    }
+                }
+            });
+        });
+    });
+</script>

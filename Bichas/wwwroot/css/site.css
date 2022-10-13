@@ -19,9 +19,8 @@ body {
 
 
 .btn-gravar {
-    margin-left: 510px;
+    margin-left: 10px;
     position: absolute;
-    margin-top: -36px;
     border-radius: 18px;
     border: none;
     background-color: #fff;
@@ -30,11 +29,14 @@ body {
     background-color: #a9e9a9 !important;
     border-radius: 18px;
     width: 30px;
+    margin-top: 3px;
 }
 .btncheck {
     background-color: #a9e9a9 !important;
     border-radius: 18px;
     width: 23px;
+    border-style: outset;
+    border-color: #4cdf4c;
 }
 .container1 {
     display: flex; /* or inline-flex */
@@ -51,4 +53,9 @@ body {
     height: 70px;
     background-color: #E0F8E5;
     text-align: center;
+}
+.formulario {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
 }
